@@ -3,11 +3,12 @@
 ArrayHashTable::ArrayHashTable(int Size, int Step) : TabSize(Size), HashStep(Step)
 {
 	pRecs = new Record[TabSize];
-	Empty = Record(-1);
-	Mark = Record(-2);
+	HashStep = Step;
+	Del.Key=-1;
+	Free.Key=-2;
 	for (int i = 0; i < TabSize; i++)
 	{
-		pRecs[i] = Empty;
+		pRecs[i] = Del;
 	}
 }
 
@@ -16,45 +17,41 @@ ArrayHashTable::~ArrayHashTable()
 	delete[] pRecs;
 }
 
-bool ArrayHashTable::FindRecord(TKey _key)
+bool ArrayHashTable::FindRecord(TKey key)
 {
-	bool result = false;
-	FreePos = -1;
-	CurrPos = HashFunc(_key) % TabSize;
-	for (int i = 0; i < TabSize; i++)
+	int pos = HashFunc(key) % TabSize, DelPos = -1;
+	bool res = false;
+	for (int i = 0; i < TabSize; ++i, ++Efficiency)
 	{
-		Efficiency++;
-		if (pRecs[CurrPos] == Empty)
+		if (pRecs[pos] == Free)
 		{
+			CurrPos = pos;
 			break;
 		}
-		else
+		else if (pRecs[pos].Key == key)
 		{
-			if (pRecs[CurrPos] == Mark)
-			{
-				if (FreePos == -1)
-				{
-					FreePos = CurrPos;
-				}
-			}
-			else
-			{
-				if (pRecs[CurrPos].GetKey() == _key)
-				{
-					result = true;
-					break;
-				}
-			}
+			CurrPos = pos;
+			res = true;
+			break;
 		}
-		CurrPos = GetNextPos(CurrPos);
+		else if (pRecs[pos] == Del && DelPos == -1)
+		{
+			DelPos = pos;
+			CurrPos = pos;
+		}
+		pos = (pos + HashStep) % TabSize;
 	}
-	return result;
+	if (DelPos != -1 && res == false)
+	{
+		CurrPos = DelPos;
+	}
+	return res;
 }
 
 bool ArrayHashTable::InsRecord(Record rec)
 {
 		if (IsFull()) return false;
-		if (FindRecord(rec.GetKey())) return false;
+		if (FindRecord(rec.Key)) return false;
 		pRecs[CurrPos] = rec;
 		DataCount++;
 		Efficiency++;
@@ -65,18 +62,18 @@ bool ArrayHashTable::DelRecord(TKey k)
 {
 	if (IsEmpty()) return false;
 	if (!FindRecord(k)) return false;
-	pRecs[CurrPos] = Empty;
+	pRecs[CurrPos] = Del;
 	DataCount++;
 	Efficiency++;
 	return true;
 }
 
-int ArrayHashTable::Reset()
+void ArrayHashTable::Reset()
 {
 	CurrPos = 0;
 	while (CurrPos < TabSize)
 	{
-		if ((pRecs[CurrPos] != Empty) && (pRecs[CurrPos] != Mark))
+		if ((pRecs[CurrPos] != Del) && (pRecs[CurrPos] != Free))
 		{
 			break;
 		}
@@ -85,37 +82,44 @@ int ArrayHashTable::Reset()
 			CurrPos++;
 		}
 	}
-	return IsEnd();
+	
 }
 
-int ArrayHashTable::IsEnd() const
+bool ArrayHashTable::IsEnd() const
 {
 	return CurrPos >= TabSize;
 }
 
-int ArrayHashTable::GoNext()
+void ArrayHashTable::GoNext()
 {
-	CurrPos++;
-	while (CurrPos < TabSize)
+	if (!(pRecs[CurrPos] == Del) && !(pRecs[CurrPos] == Free))
 	{
-		if ((pRecs[CurrPos] != Empty) && (pRecs[CurrPos] != Mark))
-		{
-			break;
-		}
-		else
-		{
-			CurrPos++;
-		}
+		CurrPos++;
 	}
-	return IsEnd();
+
+	while (pRecs[CurrPos] == Del || pRecs[CurrPos] == Free)
+	{
+		CurrPos++;
+	}
 }
 
 TKey ArrayHashTable::GetKey() const
 {
-	return pRecs[CurrPos].GetKey();
+	return pRecs[CurrPos].Key;
+}
+const Record& ArrayHashTable::GetCurrentRecord() const
+{
+	if (!IsEnd() && !IsEmpty())
+	{
+		return pRecs[CurrPos];
+	}
+	else
+	{
+		throw std::exception();
+	}
 }
 
 TValue ArrayHashTable::GetValue() const
 {
-	return pRecs[CurrPos].GetValue();
+	return pRecs[CurrPos].Value;
 }

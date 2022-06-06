@@ -27,6 +27,12 @@
     <ClCompile Include="ArrayHashTable.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="TreeTable.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="BalanceTreeTable.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Record.h">
@@ -44,13 +50,16 @@
     <ClInclude Include="SortTable.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TreeNode.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="HashTable.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="ArrayHashTable.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeTable.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="BalanceTreeTable.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

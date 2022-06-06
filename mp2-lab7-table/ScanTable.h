@@ -4,10 +4,10 @@ using namespace std;
 #include"ArrayTable.h"
 class ScanTable :public ArrayTable {
 public:
-	//полностью наша
-	ScanTable(int Size = TabMaxSize) : ArrayTable(Size) {};
-	virtual bool FindRecord(TKey k);//найти запись
-	virtual bool InsRecord(Record rec);
-	virtual bool DelRecord(TKey k);
+	
+	ScanTable(int Size = 100) : ArrayTable(Size) {}
+	bool FindRecord(TKey) override;
+	bool InsRecord(Record) override;
+	bool DelRecord(TKey) override;
 
 };

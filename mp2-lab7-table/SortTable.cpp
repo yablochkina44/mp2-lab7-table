@@ -5,7 +5,6 @@ using namespace std;
 SortTable::SortTable(const ScanTable& tab) {
 	*this = tab;
 }
-
 SortTable& SortTable::operator=(const ScanTable& tab) {
 	if (pRecs != NULL) {
 		delete[]pRecs;
@@ -19,15 +18,12 @@ SortTable& SortTable::operator=(const ScanTable& tab) {
 	for (int i = 0; i < DataCount; i++) {
 		pRecs[i] = tab.pRecs[i];
 	}
-	SortData();
+	QuickSort();
 	CurrPos = 0;
 	return *this;
 }
 
-void SortTable::SortData()
-{
-	QuickSort();
-}
+
 bool SortTable::FindRecord(TKey k)
 {//barkashina
 	int left = 0; int right = DataCount - 1;
@@ -84,7 +80,7 @@ bool SortTable::DelRecord(TKey k)
 }
 void SortTable::QuickSort()
 {
-	QuickSorter(0, DataCount - 1);
+	QuickSorter(0, DataCount - 1);// or QuickSorter(0, DataCount)???
 }
 void SortTable::QuickSorter(int start, int finish)
 {//barkashina

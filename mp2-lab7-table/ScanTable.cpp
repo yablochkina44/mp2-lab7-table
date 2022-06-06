@@ -3,7 +3,7 @@
 using namespace std;
 #include"ScanTable.h"
 
-bool ScanTable::FindRecord(TKey k)
+bool ScanTable::FindRecord(TKey k) 
 {	//barkashina
 	for (int i = 0; i < DataCount; i++)
 	{
@@ -19,7 +19,7 @@ bool ScanTable::FindRecord(TKey k)
 }
 
 bool ScanTable::InsRecord(Record rec) 
-{	//barkashina
+{
 	if (IsFull()) {
 		return false;
 	}
@@ -31,7 +31,7 @@ bool ScanTable::InsRecord(Record rec)
 
 }
 bool ScanTable::DelRecord(TKey k)
-{	//barkashina
+{	
 	if (IsEmpty())
 		return false;
 	if (!FindRecord(k))

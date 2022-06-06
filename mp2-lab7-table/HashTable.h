@@ -4,11 +4,10 @@
 class HashTable : public Table
 {
 protected:
-	virtual unsigned int HashFunc(const TKey _key)
+	int HashFunc(TKey key)
 	{
-		unsigned int hashval = _key;
-		return hashval;
+		return key;
 	}
-public:
-	HashTable() : Table() {}
+//public:
+//	HashTable() : Table() {}
 };
