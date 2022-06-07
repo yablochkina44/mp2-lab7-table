@@ -16,9 +16,9 @@ public:
 	}
 	SortTable(const ScanTable& tab);
 
-	bool FindRecord(TKey) override;//найти запись
-	bool InsRecord(Record) override;
-	bool DelRecord(TKey) override;
+	bool FindRecord(TKey) ;//найти запись
+	bool InsRecord(Record);
+	bool DelRecord(TKey) ;
 
 	void SelectSort();
 	void QuickSorter(int start, int finish);

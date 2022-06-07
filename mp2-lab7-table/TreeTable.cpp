@@ -1,7 +1,7 @@
 #include "TreeTable.h"
 #include "Record.h"
 
-
+//
 //void TreeTable::PrintTreeTab(TreeNode* pNode)
 //{
 //	if (pNode)
